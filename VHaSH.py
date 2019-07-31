@@ -1,8 +1,8 @@
-from tkinter import filedialog
-from tkinter import *
 import hashlib
-from os import getcwd, name
 from getpass import getuser
+from os import getcwd, name
+from tkinter import *
+from tkinter import filedialog
 
 window = Tk()
 window.geometry("865x185")
@@ -16,12 +16,12 @@ val3 = StringVar()
 val4 = StringVar()
 
 
-def openFile():
+def open_file():
     global input_file
-    inPath = "/home/"+getuser() if name == 'posix' else getcwd
-    input_file = filedialog.askopenfilename(initialdir=inPath,
-                                            title="Select file",
-                                            filetypes=[("All Files ", "*.*")])
+    in_path = "/home/" + getuser() if name == "posix" else getcwd
+    input_file = filedialog.askopenfilename(
+        initialdir=in_path, title="Select file", filetypes=[("All Files ", "*.*")]
+    )
     path.set(input_file)
     calculate()
 
@@ -33,7 +33,7 @@ def calculate():
     sha512 = hashlib.sha512()
 
     try:
-        file = open(input_file, 'rb')
+        file = open(input_file, "rb")
         data = file.read()
         sha256.update(data)
         md5.update(data)
@@ -49,7 +49,7 @@ def calculate():
 
 def main():
     s = LabelFrame(window, text="Generate Hash")
-    s.grid(row=0, columnspan=7, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
+    s.grid(row=0, columnspan=7, sticky="W", padx=5, pady=5, ipadx=5, ipady=5)
     Label(s, text="File:", fg="red").grid(row=0)
     Label(s, text="MD5:", fg="green").grid(row=1)
     Label(s, text="SHA1:", fg="green").grid(row=2)
@@ -63,25 +63,21 @@ def main():
     e5 = Entry(s, width=80, textvariable=val4)
 
     e1.grid(row=0, column=1)
-    Button(s, text="Browse&Generate", fg="blue", command=openFile).grid(row=0,
-                                                                        column=2)
+    Button(s, text="Browse&Generate", fg="blue", command=open_file).grid(row=0, column=2)
     e2.grid(row=1, column=1)
-    Button(s, text="Copy MD5", command=lambda: copy(val)).grid(row=1,
-                                                               column=2)
+    Button(s, text="Copy MD5", command=lambda: copy(val)).grid(row=1, column=2)
     e3.grid(row=2, column=1)
-    Button(s, text="Copy SHA1", command=lambda: copy(val2)).grid(row=2,
-                                                                 column=2)
+    Button(s, text="Copy SHA1", command=lambda: copy(val2)).grid(row=2, column=2)
     e4.grid(row=3, column=1)
-    Button(s, text="Copy SHA256", command=lambda: copy(val3)).grid(row=3,
-                                                                   column=2)
+    Button(s, text="Copy SHA256", command=lambda: copy(val3)).grid(row=3, column=2)
     e5.grid(row=4, column=1)
-    Button(s, text="Copy SHA512", command=lambda: copy(val4)).grid(row=4,
-                                                                   column=2)
+    Button(s, text="Copy SHA512", command=lambda: copy(val4)).grid(row=4, column=2)
 
 
 def copy(item):
     window.clipboard_clear()
     window.clipboard_append(item.get())
+
 
 main()
 window.mainloop()
